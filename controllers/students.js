@@ -135,12 +135,12 @@ router.post('/register', isLoggedIn, function (req, res) {
   Student.getByUserName(username, function (err, doc) {
     if (err) res.send('Some error occured')
     else if (doc) {
-      Course.getBycourseid(course_code, function (err, doc) {
+      Course.getByCourseId(course_code, function (err, doc) {
         if (err) res.send('Some error occured')
         else if (doc) {
-          Student.getBycourseid(username, course_code, function (err, doc) {
+          Student.getByCourseId(username, course_code, function (err, doc) {
             if (err) res.send('Some error occured')
-            else if (doc) {
+            else if (doc[0]) {
               res.redirect('/students/register_form')
             } else {
               Student.register(username, course_code, function (err, doc) {
@@ -172,10 +172,10 @@ router.post('/deregister', isLoggedIn, function (req, res) {
   Student.getByUserName(username, function (err, doc) {
     if (err) res.send('Some error occured')
     else if (doc) {
-      Course.getBycourseid(course_code, function (err, doc) {
+      Course.getByCourseId(course_code, function (err, doc) {
         if (err) res.send('Some error occured')
         else if (doc) {
-          Student.getBycourseid(username, course_code, function (err, doc) {
+          Student.getByCourseId(username, course_code, function (err, doc) {
             if (err) res.send('Some error occured')
             else if (doc) {
               Student.deregister(username, course_code, function (err, doc) {

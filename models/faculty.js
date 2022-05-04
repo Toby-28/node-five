@@ -58,9 +58,33 @@ module.exports = {
   },
 
   // Assign faculty to a course by username and course ID
-  assign: function (username, course_code, cb) {},
+  assign: function (username, course_code, cb) {
+    connection.query(
+      'insert into facultycourse(username, coursecode) values($1, $2)',
+      [username, course_code],
+      (err, message) => {
+        return cb(err, message)
+      }
+    )
+  },
 
-  unassign: function (username, course_code, cb) {},
+  unassign: function (username, course_code, cb) {
+    connection.query(
+      'delete from facultycourse where username=$1 and coursecode=$2',
+      [username, course_code],
+      (err, message) => {
+        return cb(err, message)
+      }
+    )
+  },
 
-  getBycourseid: function (username, course_code, cb) {},
+  getByCourseId: function (username, course_code, cb) {
+    connection.query(
+      'select * from facultycourse where username=$1 and coursecode=$2',
+      [username, course_code],
+      (err, results) => {
+        return cb(err, results.rows)
+      }
+    )
+  },
 }

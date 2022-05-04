@@ -58,9 +58,33 @@ module.exports = {
   },
 
   // Register student to a course by username and course ID
-  register: function (username, course_code, cb) {},
+  register: function (username, course_code, cb) {
+    connection.query(
+      'insert into student_course(username, coursecode) values($1, $2)',
+      [username, course_code],
+      (err, message) => {
+        return cb(err, message)
+      }
+    )
+  },
 
-  deregister: function (username, course_code, cb) {},
+  deregister: function (username, course_code, cb) {
+    connection.query(
+      'delete from student_course where coursecode=$1 and username=$2',
+      [course_code, username],
+      (err, message) => {
+        return cb(err, message)
+      }
+    )
+  },
 
-  getBycourseid: function (username, course_code, cb) {},
+  getByCourseId: function (username, course_code, cb) {
+    connection.query(
+      'select * from student_course where coursecode=$1 and username=$2',
+      [course_code, username],
+      (err, results) => {
+        return cb(err, results.rows)
+      }
+    )
+  },
 }
